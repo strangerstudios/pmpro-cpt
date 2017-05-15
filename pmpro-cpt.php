@@ -3,7 +3,7 @@
 Plugin Name: Paid Memberships Pro - Custom Post Type Add On
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-cpt/
 Description: Add the PMPro meta box to CPTs and redirects non-members to a selected page.
-Version: .1
+Version: .2
 Author: Stranger Studios
 Author URI: http://www.strangerstudios.com
 */
@@ -21,11 +21,21 @@ function pmprocpt_template_redirect()
 {
 	$selected_cpts = pmprocpt_getCPTs();
 	$options = get_option('pmprocpt_options');
-	$redirect_to = intval($options['redirect_to'][0]);
+	$redirect_to = isset($options['redirect_to'][0]) ? intval($options['redirect_to'][0]) : '';
+	if(!empty($redirect_to))
+		$redirect_to = get_permalink($redirect_to);
+	else
+		$redirect_to = pmpro_url('levels');
+
+	/**
+	 * Filter the URL redirected to when accessing a restricted CPT
+	 * @since  .2
+	 */
+	$redirect_to = apply_filters('pmprocpt_redirect_to', $redirect_to, $selected_cpts, $options);
+
 	if(!pmpro_has_membership_access() && is_singular($selected_cpts) && !empty($redirect_to))
 	{
-		//wp_redirect(pmpro_url('levels');
-		wp_redirect(get_permalink($redirect_to));
+		wp_redirect($redirect_to);
 		exit;
 	}
 }
@@ -201,7 +211,7 @@ function pmprocpt_plugin_row_meta($links, $file) {
 	if(strpos($file, 'pmpro-cpt.php') !== false)
 	{
 		$new_links = array(
-			//'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/third-party-integration/pmpro-aweber-integration/') . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
+			'<a href="' . esc_url('http://www.paidmembershipspro.com/add-ons/plus-add-ons/custom-post-type-membership-access/') . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro' ) . '</a>',
 			'<a href="' . esc_url('http://paidmembershipspro.com/support/') . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro' ) . '</a>',
 		);
 		$links = array_merge($links, $new_links);
