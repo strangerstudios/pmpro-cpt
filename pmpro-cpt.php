@@ -1,6 +1,6 @@
 <?php
 /*
-Plugin Name: Paid Memberships Pro - Custom Post Type Add On
+Plugin Name: Paid Memberships Pro - Custom Post Type Add On test
 Plugin URI: http://www.paidmembershipspro.com/wp/pmpro-cpt/
 Description: Add the PMPro meta box to CPTs and redirects non-members to a selected page.
 Version: .2
