@@ -22,12 +22,17 @@ function pmprocpt_page_meta_wrapper()
 function pmprocpt_template_redirect()
 {
 	$selected_cpts = pmprocpt_getCPTs();
+	if ( empty( $selected_cpts ) ) {
+		return;
+	}
+
 	$options = get_option('pmprocpt_options');
 	$redirect_to = isset($options['redirect_to'][0]) ? intval($options['redirect_to'][0]) : '';
-	if(!empty($redirect_to))
+	if ( ! empty( $redirect_to ) ) {
 		$redirect_to = get_permalink($redirect_to);
-	else
+	} else {
 		$redirect_to = pmpro_url('levels');
+	}
 
 	/**
 	 * Filter the URL redirected to when accessing a restricted CPT
@@ -35,9 +40,8 @@ function pmprocpt_template_redirect()
 	 */
 	$redirect_to = apply_filters('pmprocpt_redirect_to', $redirect_to, $selected_cpts, $options);
 
-	if(!pmpro_has_membership_access() && is_singular($selected_cpts) && !empty($redirect_to))
-	{
-		wp_redirect($redirect_to);
+	if( ! pmpro_has_membership_access() && is_singular( $selected_cpts ) && ! empty( $redirect_to ) ) {
+		wp_redirect( $redirect_to );
 		exit;
 	}
 }
