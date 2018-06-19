@@ -18,6 +18,7 @@ Navigate to Settings > PMPro CPTs in the WordPress Admin to select custom post t
 
 = .2.1 =
 * BUG FIX: Fixed redirect issue when no CPTs were selected on the settings page but the is_singular check was still returning true.
+* ENHANCEMENT: WordPress Coding Standards and Improved PHPDoc Blocs
 
 = .2 =
 * BUG FIX: Fixed a warning when getting the redirect_to setting. (Thanks, Sarah Hines on GitHub)

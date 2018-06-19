@@ -11,7 +11,7 @@
 define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 
 /**
- * [pmprocpt_page_meta_wrapper description]
+ * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
  *
  * @return [type] [description]
  */
@@ -23,7 +23,7 @@ function pmprocpt_page_meta_wrapper() {
 }
 
 /**
- * [pmprocpt_template_redirect description]
+ * pmprocpt_template_redirect Redirect the restricted CPTs to the selected redirect page.
  *
  * @return [type] [description]
  */
@@ -56,9 +56,9 @@ function pmprocpt_template_redirect() {
 add_action( 'template_redirect', 'pmprocpt_template_redirect' );
 
 /**
- * [pmprocpt_getCPTs description]
+ * pmprocpt_getCPTs Get the array of selected CPTs from the settings page.
  *
- * @return [type] [description]
+ * @return array An arry of the selected Custom Post Type names to restrict and redirect from.
  */
 function pmprocpt_getCPTs() {
 	$options = get_option( 'pmprocpt_options' );
@@ -70,7 +70,7 @@ function pmprocpt_getCPTs() {
 }
 
 /**
- * [pmprocpt_init description]
+ * pmprocpt_init Add Settings Page to WordPress admin.
  *
  * @return [type] [description]
  */
@@ -81,9 +81,8 @@ function pmprocpt_init() {
 }
 add_action( 'init', 'pmprocpt_init', 20 );
 
-// admin init. registers settings
 /**
- * [pmprocpt_admin_init description]
+ * pmprocpt_admin_init Register settings page and fields for the plugin.
  *
  * @return [type] [description]
  */
@@ -97,7 +96,7 @@ function pmprocpt_admin_init() {
 add_action( 'admin_init', 'pmprocpt_admin_init' );
 
 /**
- * [pmprocpt_option_cpt_selections description]
+ * pmprocpt_option_cpt_selections Display the multi-select settings field to select CPTs for restriction.
  *
  * @return [type] [description]
  */
@@ -126,7 +125,7 @@ function pmprocpt_option_cpt_selections() {
 }
 
 /**
- * [pmprocpt_option_redirect_to description]
+ * pmprocpt_option_redirect_to Display the dropdown settings field to select the redirection page for restricted CPTs.
  *
  * @return [type] [description]
  */
@@ -149,14 +148,14 @@ function pmprocpt_option_redirect_to() {
 }
 
 /**
- * pmprocpt_section_general Options sections
+ * pmprocpt_section_general Display an information message at the top of the settings page.
  *
  * @return string Paragraph description
  */
 function pmprocpt_section_general() {
-?>
-	<p>Select the custom post types from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.</p>
-<?php
+	echo '<p>';
+	_e( 'Select the CPTs (custom post types) from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.' );
+	echo '</p>';
 }
 
 /**
