@@ -201,7 +201,12 @@ function pmprocpt_options_page() {
 
 	// get options
 	$options = get_option( 'pmprocpt_options' );
-	$pmprocpt_cpts = get_post_types( '', 'names' );
+	$pmprocpt_cpts = get_post_types(
+		array(
+			'public'   => true,
+			'_builtin' => false,
+		), 'names'
+	);
 	$cpt_selections = pmprocpt_getCPTs();
 ?>
 <div class="wrap">
