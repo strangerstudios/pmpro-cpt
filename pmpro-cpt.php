@@ -10,6 +10,11 @@
 
 define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 
+function pmprocpt_load_plugin_text_domain() {
+	load_plugin_textdomain( 'pmpro-cpt', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
+}
+add_action( 'plugins_loaded', 'pmprocpt_load_plugin_text_domain');
+
 /**
  * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
  *
@@ -18,7 +23,7 @@ define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 function pmprocpt_page_meta_wrapper() {
 	$selected_cpts = pmprocpt_getCPTs();
 	foreach ( $selected_cpts as $selected_cpt ) {
-		add_meta_box( 'pmpro_page_meta', 'Require Membership', 'pmpro_page_meta', $selected_cpt, 'side' );
+		add_meta_box( 'pmpro_page_meta', __('Require Membership', 'pmpro-cpt'), 'pmpro_page_meta', $selected_cpt, 'side' );
 	}
 }
 
@@ -120,7 +125,7 @@ function pmprocpt_option_cpt_selections() {
 		}
 		echo '</select>';
 	} else {
-		echo 'No CPTs found.';
+		__('No CPTs found.', 'pmpro-cpt');
 	}
 }
 
@@ -154,7 +159,7 @@ function pmprocpt_option_redirect_to() {
  */
 function pmprocpt_section_general() {
 	echo '<p>';
-	_e( 'Select the CPTs (custom post types) from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.' );
+	_e( 'Select the CPTs (custom post types) from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.', 'pmpro-cpt' );
 	echo '</p>';
 }
 
@@ -187,7 +192,7 @@ function pmprocpt_options_validate( $input ) {
  * @return [type] [description]
  */
 function pmprocpt_admin_add_page() {
-	add_options_page( 'PMPro CPTs', 'PMPro CPTs', 'manage_options', 'pmprocpt_options', 'pmprocpt_options_page' );
+	add_options_page( __('PMPro CPTs', 'pmpro-cpt'), __('PMPro CPTs', 'pmpro-cpt'), 'manage_options', 'pmprocpt_options', 'pmprocpt_options_page' );
 }
 add_action( 'admin_menu', 'pmprocpt_admin_add_page' );
 
@@ -211,7 +216,7 @@ function pmprocpt_options_page() {
 ?>
 <div class="wrap">
 	<div id="icon-options-general" class="icon32"><br></div>
-	<h2>Paid Memberships Pro - Custom Post Type Membership Access</h2>		
+	<p><?php __('Paid Memberships Pro - Custom Post Type Membership Access', 'pmpro-cpt'); ?></p>	
 	
 	<?php if ( ! empty( $msg ) ) { ?>
 		<div class="message <?php echo $msgt; ?>"><p><?php echo $msg; ?></p></div>
@@ -219,7 +224,7 @@ function pmprocpt_options_page() {
 	
 	<form action="options.php" method="post">
 		
-		<p>This plugin will add the PMPro "Require Membership" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page.</p>
+	<p><?php __('This plugin will add the PMPro "Require Membership" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page.', 'pmpro-cpt'); ?></p>
 		<hr />
 		
 		<?php settings_fields( 'pmprocpt_options' ); ?>
@@ -233,9 +238,9 @@ function pmprocpt_options_page() {
 		</div>
 		<p><br /></p>
 		<hr />
-		<p><strong>Notes:</strong></p>
-		<p>This redirection will also apply to a search engine indexing your site.</p>
-		<p>Setting membership access restrictions for a single CPT will not necessarily hide it from archives, search, or other custom template built into your theme.</p>
+		<p><strong><?php __('Notes:', 'pmpro-cpt'); ?></strong></p>
+		<p><?php __('This redirection will also apply to a search engine indexing your site.', 'pmpro-cpt'); ?></p>
+		<p><?php __('Setting membership access restrictions for a single CPT will not necessarily hide it from archives, search, or other custom template built into your theme.', 'pmpro-cpt'); ?></p>
 	</form>
 </div>
 <?php
