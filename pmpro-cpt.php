@@ -314,8 +314,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmprocpt_add_
 function pmprocpt_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-cpt.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro-cpt' ) . '</a>',
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-cpt' ) ) . '">' . __( 'Docs', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-cpt' ) ) . '">' . __( 'Support', 'pmpro-cpt' ) . '</a>',
 		);
 		$links     = array_merge( $links, $new_links );
 	}
