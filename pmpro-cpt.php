@@ -277,7 +277,9 @@ function pmprocpt_admin_notice() {
 	if ( get_transient( 'pmprocpt-admin-notice' ) ) {
 	?>
 		<div class="updated notice is-dismissible">
-			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the settings page</a> to get started with the CPT Add On.', 'pmpro-cpt' ), get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) ); ?></p>
+			<p><?php 
+			/* translators: The placeholder is for a URL. */
+			printf( __( 'Thank you for activating. <a href="%s">Visit the settings page</a> to get started with the CPT Add On.', 'pmpro-cpt' ), get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) ); ?></p>
 		</div>
 		<?php
 		// Delete transient, only display this notice once.
