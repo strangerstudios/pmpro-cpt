@@ -15,7 +15,7 @@ define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 function pmprocpt_load_plugin_text_domain() {
 	load_plugin_textdomain( 'pmpro-cpt', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
 }
-add_action( 'plugins_loaded', 'pmprocpt_load_plugin_text_domain');
+add_action( 'init', 'pmprocpt_load_plugin_text_domain');
 
 /**
  * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
