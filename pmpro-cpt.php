@@ -6,6 +6,8 @@
  * Version: .2.1
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
+ * Text Domain: pmpro-cpt
+ * Domain Path: /languages
  */
 
 define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
