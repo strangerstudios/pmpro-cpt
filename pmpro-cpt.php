@@ -42,8 +42,6 @@ function pmprocpt_template_redirect() {
 	$redirect_to = isset( $options['redirect_to'][0] ) ? intval( $options['redirect_to'][0] ) : '';
 	if ( ! empty( $redirect_to ) ) {
 		$redirect_to = get_permalink( $redirect_to );
-	} else {
-		$redirect_to = pmpro_url( 'levels' );
 	}
 
 	/**
