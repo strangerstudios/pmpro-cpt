@@ -33,6 +33,10 @@ function pmprocpt_page_meta_wrapper() {
  * @return [type] [description]
  */
 function pmprocpt_template_redirect() {
+	if ( ! function_exists( 'pmpro_has_membership_access' ) ) {
+		return;
+	}
+	
 	$selected_cpts = pmprocpt_getCPTs();
 	if ( empty( $selected_cpts ) ) {
 		return;
