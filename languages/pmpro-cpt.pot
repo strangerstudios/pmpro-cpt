@@ -9,41 +9,114 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2021-01-31T19:14:31+00:00\n"
+"POT-Creation-Date: 2021-06-11 03:21+1000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.3.0\n"
 "X-Domain: pmpro-cpt\n"
 
-#. Plugin Name of the plugin
-msgid "Paid Memberships Pro - Custom Post Type Add On"
-msgstr ""
-
-#. Plugin URI of the plugin
-msgid "https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/"
-msgstr ""
-
-#. Description of the plugin
-msgid "Add the PMPro meta box to CPTs and redirects non-members to a selected page."
+#. Author URI of the plugin
+msgid "https://www.paidmembershipspro.com/"
 msgstr ""
 
 #. Author of the plugin
 msgid "Paid Memberships Pro"
 msgstr ""
 
-#. Author URI of the plugin
-msgid "https://www.paidmembershipspro.com/"
+#. Description of the plugin
+msgid ""
+"Add the PMPro meta box to CPTs and redirects non-members to a selected page."
 msgstr ""
 
-#: pmpro-cpt.php:28
+#. Plugin URI of the plugin
+msgid ""
+"https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-"
+"access/"
+msgstr ""
+
+#. Plugin Name of the plugin
+msgid "Paid Memberships Pro - Custom Post Type Add On"
+msgstr ""
+
+#: pmpro-cpt.php:28 pmpro-cpt.php:28
 msgid "Require Membership"
 msgstr ""
 
-#: pmpro-cpt.php:130
+#: pmpro-cpt.php:131 pmpro-cpt.php:130
 msgid "No CPTs found."
 msgstr ""
 
-#: pmpro-cpt.php:164
-msgid "Select the CPTs (custom post types) from the box below to add the \"Require Membership\" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT."
+#: pmpro-cpt.php:136 pmpro-cpt.php:245
+msgid ""
+"Setting membership access restrictions for a single CPT will not necessarily "
+"hide it from archives, search, or other custom template built into your "
+"theme."
+msgstr ""
+
+#: pmpro-cpt.php:156
+msgid "Do Not Redirect"
+msgstr ""
+
+#: pmpro-cpt.php:163 pmpro-cpt.php:244
+msgid "This redirection will also apply to a search engine indexing your site."
+msgstr ""
+
+#: pmpro-cpt.php:174 pmpro-cpt.php:164
+msgid ""
+"Select the CPTs (custom post types) from the box below to add the \"Require "
+"Membership\" meta box. Then, select the page to redirect to if a non-member "
+"attempts to access a protected CPT."
+msgstr ""
+
+#: pmpro-cpt.php:207
+msgid "CPT Access"
+msgstr ""
+
+#: pmpro-cpt.php:207
+msgid "PMPro Custom Post Type Membership Access"
+msgstr ""
+
+#: pmpro-cpt.php:231
+msgid "Custom Post Type Membership Access"
+msgstr ""
+
+#: pmpro-cpt.php:236 pmpro-cpt.php:229
+msgid ""
+"This plugin will add the PMPro \"Require Membership\" meta box to all CPTs "
+"selected. If a non-member visits that single CPT (either a logged out "
+"visitor or a logged in user without membership access) they will be "
+"redirected to the selected page."
+msgstr ""
+
+#: pmpro-cpt.php:244
+msgid "Save Settings"
+msgstr ""
+
+#: pmpro-cpt.php:282
+msgid "Thank you for activating."
+msgstr ""
+
+#: pmpro-cpt.php:284
+msgid "Visit the settings page to get started with the CPT Add On."
+msgstr ""
+
+#: pmpro-cpt.php:305 pmpro-cpt.php:301
+msgid "Settings"
+msgstr ""
+
+#: pmpro-cpt.php:323 pmpro-cpt.php:319
+msgid "Docs"
+msgstr ""
+
+#: pmpro-cpt.php:323 pmpro-cpt.php:319
+msgid "View Documentation"
+msgstr ""
+
+#: pmpro-cpt.php:324 pmpro-cpt.php:320
+msgid "Support"
+msgstr ""
+
+#: pmpro-cpt.php:324 pmpro-cpt.php:320
+msgid "Visit Customer Support Forum"
 msgstr ""
 
 #: pmpro-cpt.php:197
@@ -54,43 +127,13 @@ msgstr ""
 msgid "Paid Memberships Pro - Custom Post Type Membership Access"
 msgstr ""
 
-#: pmpro-cpt.php:229
-msgid "This plugin will add the PMPro \"Require Membership\" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page."
-msgstr ""
-
 #: pmpro-cpt.php:243
 msgid "Notes:"
 msgstr ""
 
-#: pmpro-cpt.php:244
-msgid "This redirection will also apply to a search engine indexing your site."
-msgstr ""
-
-#: pmpro-cpt.php:245
-msgid "Setting membership access restrictions for a single CPT will not necessarily hide it from archives, search, or other custom template built into your theme."
-msgstr ""
-
 #. translators: The placeholder is for a URL.
 #: pmpro-cpt.php:282
-msgid "Thank you for activating. <a href=\"%s\">Visit the settings page</a> to get started with the CPT Add On."
-msgstr ""
-
-#: pmpro-cpt.php:301
-msgid "Settings"
-msgstr ""
-
-#: pmpro-cpt.php:319
-msgid "View Documentation"
-msgstr ""
-
-#: pmpro-cpt.php:319
-msgid "Docs"
-msgstr ""
-
-#: pmpro-cpt.php:320
-msgid "Visit Customer Support Forum"
-msgstr ""
-
-#: pmpro-cpt.php:320
-msgid "Support"
+msgid ""
+"Thank you for activating. <a href=\"%s\">Visit the settings page</a> to get "
+"started with the CPT Add On."
 msgstr ""

@@ -18,6 +18,10 @@ xgettext -j -o languages/pmpro-cpt.pot \
 --keyword=_x \
 --keyword=esc_html__ \
 --keyword=esc_html_e \
+--keyword=esc_html_x \
+--keyword=esc_attr__ \
+--keyword=esc_attr_e \
+--keyword=esc_attr_x \
 --sort-by-file \
 --package-version=1.0 \
 --msgid-bugs-address="info@paidmembershipspro.com" \
