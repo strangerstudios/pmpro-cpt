@@ -6,6 +6,8 @@
  * Version: .2.1
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
+ * Text Domain: pmpro-cpt
+ * Domain Path: /languages
  */
 
 define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
@@ -13,7 +15,7 @@ define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 function pmprocpt_load_plugin_text_domain() {
 	load_plugin_textdomain( 'pmpro-cpt', false, basename( dirname( __FILE__ ) ) . '/languages' ); 
 }
-add_action( 'plugins_loaded', 'pmprocpt_load_plugin_text_domain');
+add_action( 'init', 'pmprocpt_load_plugin_text_domain');
 
 /**
  * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
@@ -279,7 +281,9 @@ function pmprocpt_admin_notice() {
 	if ( get_transient( 'pmprocpt-admin-notice' ) ) {
 	?>
 		<div class="updated notice is-dismissible">
-			<p><?php printf( __( 'Thank you for activating. <a href="%s">Visit the settings page</a> to get started with the CPT Add On.', 'pmpro-cpt' ), get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) ); ?></p>
+			<p><?php 
+			/* translators: The placeholder is for a URL. */
+			printf( __( 'Thank you for activating. <a href="%s">Visit the settings page</a> to get started with the CPT Add On.', 'pmpro-cpt' ), get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) ); ?></p>
 		</div>
 		<?php
 		// Delete transient, only display this notice once.
@@ -316,8 +320,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmprocpt_add_
 function pmprocpt_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-cpt.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro' ) ) . '">' . __( 'Docs', 'pmpro-cpt' ) . '</a>',
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro' ) ) . '">' . __( 'Support', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-cpt' ) ) . '">' . __( 'Docs', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-cpt' ) ) . '">' . __( 'Support', 'pmpro-cpt' ) . '</a>',
 		);
 		$links     = array_merge( $links, $new_links );
 	}
