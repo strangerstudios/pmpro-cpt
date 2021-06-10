@@ -25,7 +25,7 @@ add_action( 'init', 'pmprocpt_load_plugin_text_domain');
 function pmprocpt_page_meta_wrapper() {
 	$selected_cpts = pmprocpt_getCPTs();
 	foreach ( $selected_cpts as $selected_cpt ) {
-		add_meta_box( 'pmpro_page_meta', __('Require Membership', 'pmpro-cpt'), 'pmpro_page_meta', $selected_cpt, 'side' );
+		add_meta_box( 'pmpro_page_meta', esc_html__('Require Membership', 'pmpro-cpt'), 'pmpro_page_meta', $selected_cpt, 'side' );
 	}
 }
 
@@ -119,18 +119,22 @@ function pmprocpt_option_cpt_selections() {
 		foreach ( $pmprocpt_cpts as $cpt ) {
 			if ( in_array( $cpt, array( 'post', 'page', 'attachment', 'revision', 'nav_menu_item', 'forum', 'topic', 'reply', 'product_variation', 'shop_order', 'shop_order_refund', 'shop_coupon', 'shop_webhook', 'plugin_filter', 'plugin_group' ) ) ) {
 				continue;
-			} else {
-				echo "<option value='" . $cpt . "' ";
-				if ( in_array( $cpt, $selected_cpts ) ) {
-					echo "selected='selected'";
-				}
-				echo '>' . $cpt . '</option>';
 			}
+			
+			echo "<option value='" . esc_attr( $cpt ) . "' ";
+			selected( in_array( $cpt, $selected_cpts ) );
+			echo '>' . esc_html( $cpt ) . '</option>';			
 		}
 		echo '</select>';
 	} else {
-		__('No CPTs found.', 'pmpro-cpt');
+		echo '<p>';
+		esc_html_e('No CPTs found.', 'pmpro-cpt');
+		echo '</p>';
 	}
+	
+	echo '<p class="description">';
+	esc_html_e( 'Setting membership access restrictions for a single CPT will not necessarily hide it from archives, search, or other custom template built into your theme.', 'pmpro-cpt' );
+	echo '</p>';
 }
 
 /**
@@ -149,11 +153,15 @@ function pmprocpt_option_redirect_to() {
 		array(
 			'name' => 'pmprocpt_options[redirect_to]',
 			'echo' => 1,
-			'show_option_none' => __( '&mdash; Do Not Redirect &mdash;' ),
+			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect' ) . ' &mdash;',
 			'option_none_value' => '0',
 			'selected' => $redirect_to,
 		)
 	);
+	
+	echo '<p class="description">';
+	esc_html_e( 'This redirection will also apply to a search engine indexing your site.', 'pmpro-cpt' );
+	echo '</p>';
 }
 
 /**
@@ -163,7 +171,7 @@ function pmprocpt_option_redirect_to() {
  */
 function pmprocpt_section_general() {
 	echo '<p>';
-	_e( 'Select the CPTs (custom post types) from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.', 'pmpro-cpt' );
+	esc_html_e( 'Select the CPTs (custom post types) from the box below to add the "Require Membership" meta box. Then, select the page to redirect to if a non-member attempts to access a protected CPT.', 'pmpro-cpt' );
 	echo '</p>';
 }
 
@@ -196,7 +204,7 @@ function pmprocpt_options_validate( $input ) {
  * @return [type] [description]
  */
 function pmprocpt_admin_add_page() {
-	add_options_page( __('PMPro CPTs', 'pmpro-cpt'), __('PMPro CPTs', 'pmpro-cpt'), 'manage_options', 'pmprocpt_options', 'pmprocpt_options_page' );
+	add_submenu_page( 'pmpro-dashboard', esc_html__('PMPro Custom Post Type Membership Access', 'pmpro-cpt'), esc_html__('CPT Access', 'pmpro-cpt'), 'manage_options', 'pmprocpt_options', 'pmprocpt_options_page' );
 }
 add_action( 'admin_menu', 'pmprocpt_admin_add_page' );
 
@@ -206,7 +214,7 @@ add_action( 'admin_menu', 'pmprocpt_admin_add_page' );
  * @return [type] [description]
  */
 function pmprocpt_options_page() {
-	global $pmprocpt_cpts, $msg, $msgt;
+	global $pmprocpt_cpts;
 
 	// get options
 	$options = get_option( 'pmprocpt_options' );
@@ -217,37 +225,27 @@ function pmprocpt_options_page() {
 		), 'names'
 	);
 	$cpt_selections = pmprocpt_getCPTs();
+	require_once( PMPRO_DIR . "/adminpages/admin_header.php" );
 ?>
-<div class="wrap">
-	<div id="icon-options-general" class="icon32"><br></div>
-	<p><?php __('Paid Memberships Pro - Custom Post Type Membership Access', 'pmpro-cpt'); ?></p>	
-	
-	<?php if ( ! empty( $msg ) ) { ?>
-		<div class="message <?php echo $msgt; ?>"><p><?php echo $msg; ?></p></div>
-	<?php } ?>
-	
+	<h1 class="wp-heading-inline">
+		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-courses' ); ?>
+	</h1>	
+		
 	<form action="options.php" method="post">
 		
-	<p><?php __('This plugin will add the PMPro "Require Membership" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page.', 'pmpro-cpt'); ?></p>
+		<p><?php esc_html_e('This plugin will add the PMPro "Require Membership" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page.', 'pmpro-cpt'); ?></p>
 		<hr />
 		
 		<?php settings_fields( 'pmprocpt_options' ); ?>
 		<?php do_settings_sections( 'pmprocpt_options' ); ?>
-
-		<p><br /></p>
 						
-		<div class="bottom-buttons">
+		<p class="submit">
 			<input type="hidden" name="pmprocpt_options[set]" value="1" />
 			<input type="submit" name="submit" class="button-primary" value="<?php esc_attr_e( 'Save Settings' ); ?>">
-		</div>
-		<p><br /></p>
-		<hr />
-		<p><strong><?php __('Notes:', 'pmpro-cpt'); ?></strong></p>
-		<p><?php __('This redirection will also apply to a search engine indexing your site.', 'pmpro-cpt'); ?></p>
-		<p><?php __('Setting membership access restrictions for a single CPT will not necessarily hide it from archives, search, or other custom template built into your theme.', 'pmpro-cpt'); ?></p>
+		</p>
 	</form>
-</div>
 <?php
+	require_once( PMPRO_DIR . "/adminpages/admin_footer.php" );
 }
 
 /**
@@ -280,8 +278,12 @@ function pmprocpt_admin_notice() {
 	?>
 		<div class="updated notice is-dismissible">
 			<p><?php 
-			/* translators: The placeholder is for a URL. */
-			printf( __( 'Thank you for activating. <a href="%s">Visit the settings page</a> to get started with the CPT Add On.', 'pmpro-cpt' ), get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) ); ?></p>
+			/* translators: The placeholder is for a URL. */			
+			esc_html_e( 'Thank you for activating.', 'pmpro-cpt' );
+			echo ' <a href="' . esc_url( get_admin_url( null, 'admin.php?page=pmprocpt_options' ) ) . '">';
+			esc_html_e( 'Visit the settings page to get started with the CPT Add On.', 'pmpro-cpt' );
+			echo '</a>';
+			?></p>
 		</div>
 		<?php
 		// Delete transient, only display this notice once.
@@ -300,7 +302,7 @@ add_action( 'admin_notices', 'pmprocpt_admin_notice' );
 function pmprocpt_add_action_links( $links ) {
 
 	$new_links = array(
-		'<a href="' . get_admin_url( null, 'options-general.php?page=pmprocpt_options' ) . '">' . __( 'Settings', 'pmpro-cpt' ) . '</a>',
+		'<a href="' . esc_url( get_admin_url( null, 'admin.php?page=pmprocpt_options' ) ) . '">' . esc_html__( 'Settings', 'pmpro-cpt' ) . '</a>',
 	);
 	return array_merge( $new_links, $links );
 }
@@ -318,8 +320,8 @@ add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), 'pmprocpt_add_
 function pmprocpt_plugin_row_meta( $links, $file ) {
 	if ( strpos( $file, 'pmpro-cpt.php' ) !== false ) {
 		$new_links = array(
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr( __( 'View Documentation', 'pmpro-cpt' ) ) . '">' . __( 'Docs', 'pmpro-cpt' ) . '</a>',
-			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr( __( 'Visit Customer Support Forum', 'pmpro-cpt' ) ) . '">' . __( 'Support', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/' ) . '" title="' . esc_attr__( 'View Documentation', 'pmpro-cpt' ) . '">' . esc_html__( 'Docs', 'pmpro-cpt' ) . '</a>',
+			'<a href="' . esc_url( 'https://www.paidmembershipspro.com/support/' ) . '" title="' . esc_attr__( 'Visit Customer Support Forum', 'pmpro-cpt' ) . '">' . esc_html__( 'Support', 'pmpro-cpt' ) . '</a>',
 		);
 		$links     = array_merge( $links, $new_links );
 	}
