@@ -153,7 +153,7 @@ function pmprocpt_option_redirect_to() {
 		array(
 			'name' => 'pmprocpt_options[redirect_to]',
 			'echo' => 1,
-			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect' ) . ' &mdash;',
+			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect', 'pmpro-cpt' ) . ' &mdash;',
 			'option_none_value' => '0',
 			'selected' => $redirect_to,
 		)
@@ -228,7 +228,7 @@ function pmprocpt_options_page() {
 	require_once( PMPRO_DIR . "/adminpages/admin_header.php" );
 ?>
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-courses' ); ?>
+		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-cpt' ); ?>
 	</h1>	
 		
 	<form action="options.php" method="post">
