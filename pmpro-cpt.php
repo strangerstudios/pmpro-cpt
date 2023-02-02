@@ -228,7 +228,7 @@ function pmprocpt_options_page() {
 	require_once( PMPRO_DIR . "/adminpages/admin_header.php" );
 ?>
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-courses' ); ?>
+		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-cpt' ); ?>
 	</h1>	
 		
 	<form action="options.php" method="post">
