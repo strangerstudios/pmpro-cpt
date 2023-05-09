@@ -184,6 +184,7 @@ function pmprocpt_section_general() {
  */
 function pmprocpt_options_validate( $input ) {
 	// selected CPTs
+	$newinput = array();
 	if ( ! empty( $input['cpt_selections'] ) && is_array( $input['cpt_selections'] ) ) {
 		$count = count( $input['cpt_selections'] );
 		for ( $i = 0; $i < $count; $i++ ) {
@@ -192,7 +193,6 @@ function pmprocpt_options_validate( $input ) {
 	}
 	if ( ! empty( $input['redirect_to'] ) ) {
 		$newinput['redirect_to'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $input['redirect_to'] ) );
-		;
 	}
 
 	return $newinput;
