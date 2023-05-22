@@ -20,6 +20,9 @@ add_action( 'init', 'pmprocpt_load_plugin_text_domain');
 /**
  * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
  *
+ * This is legacy functionality from before the `pmpro_restrictable_post_types` filter was added and will be removed in a future version.
+ * This function should not be called if running a PMPro version supporting that filter. See `pmprocpt_init()` below for more info.
+ *
  * @return [type] [description]
  */
 function pmprocpt_page_meta_wrapper() {
@@ -79,11 +82,35 @@ function pmprocpt_getCPTs() {
 }
 
 /**
+ * Filter the post types that can be restricted.
+ *
+ * @param array $post_types An array of post type names.
+ * @return array An array of post type names.
+ */
+function pmprocpt_pmpro_restrictable_post_types( $post_types ) {
+	$selected_cpts = pmprocpt_getCPTs();
+	if ( ! empty( $selected_cpts ) ) {
+		$post_types = array_merge( $post_types, $selected_cpts );
+	}
+	return $post_types;
+}
+add_filter( 'pmpro_restrictable_post_types', 'pmprocpt_pmpro_restrictable_post_types' );
+
+/**
  * pmprocpt_init Add Settings Page to WordPress admin.
+ *
+ * This is legacy functionality from before the `pmpro_restrictable_post_types` filter was added and will be removed in a future version.
  *
  * @return [type] [description]
  */
 function pmprocpt_init() {
+	// Check if the PMPro_REST_API_Routes::pmpro_rest_api_get_post_restrictions() method exists.
+	// If so, we are running a PMPro version that supports the `pmpro_restrictable_post_types` filter and
+	// we don't need to manually add meta boxes to CPTs.
+	if ( class_exists( 'PMPro_REST_API_Routes' ) && method_exists( 'PMPro_REST_API_Routes', 'pmpro_rest_api_get_post_restrictions' ) ) {
+		return;
+	}
+
 	if ( is_admin() ) {
 		add_action( 'admin_menu', 'pmprocpt_page_meta_wrapper' );
 	}
