@@ -2,8 +2,8 @@
 Contributors: strangerstudios
 Tags: pmpro, paid memberships pro, members, custom post type, cpt, redirect
 Requires at least: 3.5
-Tested up to: 5.7.2
-Stable tag: 1.0
+Tested up to: 6.2
+Stable tag: 1.0.1
 
 Adds the 'Require Membership' meta box to all CPTs selected and redirects non-members to the selected page.
 
@@ -15,6 +15,11 @@ This plugin will add the PMPro "Require Membership" meta box to all CPTs selecte
 Navigate to Memberships > CPT Access in the WordPress Admin to select custom post types and set redirection rules.
 
 == Changelog ==
+= 1.0.1 - 2023-08-11 =
+* ENHANCEMENT: Added compatibility with enhanced "Require Membership" block editor panel in PMPro 3.0. #23 (@dparker1005)
+* BUG FIX: Fixed error where the "redirect to" setting may not be saved correctly. #24 (@MaximilianoRicoTabo)
+* BUG FIX: Fixed PHP warning when using PHP 8+. #22 (@ipokkel)
+* BUG FIX: Fixed text domain on for some strings. #18 (@dparker1005)
 
 = 1.0 - 2021-06-10 =
 * SECURITY: Improved escaping of text strings.

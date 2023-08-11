@@ -3,7 +3,7 @@
  * Plugin Name: Paid Memberships Pro - Custom Post Type Add On
  * Plugin URI: https://www.paidmembershipspro.com/add-ons/custom-post-type-membership-access/
  * Description: Add the PMPro meta box to CPTs and redirects non-members to a selected page.
- * Version: 1.0
+ * Version: 1.0.1
  * Author: Paid Memberships Pro
  * Author URI: https://www.paidmembershipspro.com/
  * Text Domain: pmpro-cpt
