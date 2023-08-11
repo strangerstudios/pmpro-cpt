@@ -218,8 +218,11 @@ function pmprocpt_options_validate( $input ) {
 			$newinput['cpt_selections'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $input['cpt_selections'][ $i ] ) );
 		};
 	}
-	if ( ! empty( $input['redirect_to'] ) ) {
-		$newinput['redirect_to'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $input['redirect_to'] ) );
+
+	if ( ! empty( $input['redirect_to']  ) ) {
+		//When submit form "redirect_to" comes as a string but if there's no option saved method is fired again and redirect_to comes as an array. 
+		$redirect_to_id = is_array( $input['redirect_to'] ) ? $input['redirect_to'][0] : $input['redirect_to'];
+		$newinput['redirect_to'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $redirect_to_id  ) );
 	}
 
 	return $newinput;
