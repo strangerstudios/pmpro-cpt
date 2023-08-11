@@ -20,6 +20,9 @@ add_action( 'init', 'pmprocpt_load_plugin_text_domain');
 /**
  * pmprocpt_page_meta_wrapper Wrapper to add meta boxes
  *
+ * This is legacy functionality from before the `pmpro_restrictable_post_types` filter was added and will be removed in a future version.
+ * This function should not be called if running a PMPro version supporting that filter. See `pmprocpt_init()` below for more info.
+ *
  * @return [type] [description]
  */
 function pmprocpt_page_meta_wrapper() {
@@ -79,11 +82,35 @@ function pmprocpt_getCPTs() {
 }
 
 /**
+ * Filter the post types that can be restricted.
+ *
+ * @param array $post_types An array of post type names.
+ * @return array An array of post type names.
+ */
+function pmprocpt_pmpro_restrictable_post_types( $post_types ) {
+	$selected_cpts = pmprocpt_getCPTs();
+	if ( ! empty( $selected_cpts ) ) {
+		$post_types = array_merge( $post_types, $selected_cpts );
+	}
+	return $post_types;
+}
+add_filter( 'pmpro_restrictable_post_types', 'pmprocpt_pmpro_restrictable_post_types' );
+
+/**
  * pmprocpt_init Add Settings Page to WordPress admin.
+ *
+ * This is legacy functionality from before the `pmpro_restrictable_post_types` filter was added and will be removed in a future version.
  *
  * @return [type] [description]
  */
 function pmprocpt_init() {
+	// Check if the PMPro_REST_API_Routes::pmpro_rest_api_get_post_restrictions() method exists.
+	// If so, we are running a PMPro version that supports the `pmpro_restrictable_post_types` filter and
+	// we don't need to manually add meta boxes to CPTs.
+	if ( class_exists( 'PMPro_REST_API_Routes' ) && method_exists( 'PMPro_REST_API_Routes', 'pmpro_rest_api_get_post_restrictions' ) ) {
+		return;
+	}
+
 	if ( is_admin() ) {
 		add_action( 'admin_menu', 'pmprocpt_page_meta_wrapper' );
 	}
@@ -153,7 +180,7 @@ function pmprocpt_option_redirect_to() {
 		array(
 			'name' => 'pmprocpt_options[redirect_to]',
 			'echo' => 1,
-			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect' ) . ' &mdash;',
+			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect', 'pmpro-cpt' ) . ' &mdash;',
 			'option_none_value' => '0',
 			'selected' => $redirect_to,
 		)
@@ -184,17 +211,18 @@ function pmprocpt_section_general() {
  */
 function pmprocpt_options_validate( $input ) {
 	// selected CPTs
+	$newinput = array();
 	if ( ! empty( $input['cpt_selections'] ) && is_array( $input['cpt_selections'] ) ) {
 		$count = count( $input['cpt_selections'] );
 		for ( $i = 0; $i < $count; $i++ ) {
 			$newinput['cpt_selections'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $input['cpt_selections'][ $i ] ) );
 		};
 	}
+
 	if ( ! empty( $input['redirect_to']  ) ) {
 		//When submit form "redirect_to" comes as a string but if there's no option saved method is fired again and redirect_to comes as an array. 
 		$redirect_to_id = is_array( $input['redirect_to'] ) ? $input['redirect_to'][0] : $input['redirect_to'];
 		$newinput['redirect_to'][] = trim( preg_replace( '[^a-zA-Z0-9\-]', '', $redirect_to_id  ) );
-		;
 	}
 
 	return $newinput;
@@ -230,7 +258,7 @@ function pmprocpt_options_page() {
 	require_once( PMPRO_DIR . "/adminpages/admin_header.php" );
 ?>
 	<h1 class="wp-heading-inline">
-		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-courses' ); ?>
+		<?php esc_html_e( 'Custom Post Type Membership Access', 'pmpro-cpt' ); ?>
 	</h1>	
 		
 	<form action="options.php" method="post">
