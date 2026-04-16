@@ -264,6 +264,12 @@ function pmprocpt_options_page() {
 	<form action="options.php" method="post">
 		
 		<p><?php esc_html_e('This plugin will add the PMPro "Require Membership" meta box to all CPTs selected. If a non-member visits that single CPT (either a logged out visitor or a logged in user without membership access) they will be redirected to the selected page.', 'pmpro-cpt'); ?></p>
+		<p>
+			<?php
+			$documentation_link = '<a title="' . esc_attr__( 'Custom Post Type Membership Access Add On Documentation', 'pmpro-cpt' ) . '" target="_blank" rel="nofollow noopener" href="https://www.paidmembershipspro.com/add-ons/pmpro-custom-level-cost-text/?utm_source=plugin&utm_medium=pmpro-cpt&utm_campaign=add-ons">' . esc_html__( 'Custom Post Type Membership Access Add On', 'pmpro-cpt' ) . '</a>';
+			printf( esc_html__( 'Learn more about the %s.', 'pmpro-cpt' ), $documentation_link ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
+			?>
+		</p>
 		<hr />
 		
 		<?php settings_fields( 'pmprocpt_options' ); ?>
