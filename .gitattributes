@@ -1,0 +1,6 @@
+# Items to ignore when downloading a zip
+pmpro-cpt-banner.png export-ignore
+.gitattributes export-ignore
+.github export-ignore
+.gitignore export-ignore
+readme.md export-ignore

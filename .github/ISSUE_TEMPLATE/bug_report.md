@@ -1,6 +1,6 @@
 ---
 name: "🐛 Bug Report"
-about: Report a bug if something isn't working as expected in Custom Post Type (CPT) Membership Access.
+about: Report a bug if something isn't working as expected in Paid Memberships Pro.
 title: ''
 labels: 'bug'
 assignees: ''
