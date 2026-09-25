@@ -10,6 +10,10 @@
  * Domain Path: /languages
  */
 
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 define( 'PMPRO_CPT_BASENAME', plugin_basename( __FILE__ ) );
 
 function pmprocpt_load_plugin_text_domain() {
@@ -61,7 +65,7 @@ function pmprocpt_template_redirect() {
 	$redirect_to = apply_filters( 'pmprocpt_redirect_to', $redirect_to, $selected_cpts, $options );
 
 	if ( ! pmpro_has_membership_access() && is_singular( $selected_cpts ) && ! empty( $redirect_to ) ) {
-		wp_redirect( $redirect_to );
+		wp_redirect( $redirect_to ); // phpcs:ignore WordPress.Security.SafeRedirect.wp_redirect_wp_redirect -- URL comes from the filterable pmprocpt_redirect_to hook, which may legitimately point offsite.
 		exit;
 	}
 }
@@ -182,7 +186,7 @@ function pmprocpt_option_redirect_to() {
 			'echo' => 1,
 			'show_option_none' => '&mdash; ' . esc_html__( 'Do Not Redirect', 'pmpro-cpt' ) . ' &mdash;',
 			'option_none_value' => '0',
-			'selected' => $redirect_to,
+			'selected' => $redirect_to, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Only compared against page IDs by wp_dropdown_pages(), never printed.
 		)
 	);
 	
