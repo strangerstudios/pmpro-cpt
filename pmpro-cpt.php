@@ -101,6 +101,109 @@ function pmprocpt_pmpro_restrictable_post_types( $post_types ) {
 add_filter( 'pmpro_restrictable_post_types', 'pmprocpt_pmpro_restrictable_post_types' );
 
 /**
+ * Check whether the current user can access a restricted WooCommerce product.
+ *
+ * @since TBD
+ *
+ * @param WC_Product $product The product or variation.
+ * @return bool True if the user can access the product.
+ */
+function pmprocpt_has_product_access( $product ) {
+	// Only check products if they are one of the selected CPTs.
+	if ( ! function_exists( 'pmpro_has_membership_access' ) || ! in_array( 'product', pmprocpt_getCPTs(), true ) || ! is_a( $product, 'WC_Product' ) ) {
+		return true;
+	}
+
+	// Variations use the restrictions of their parent product.
+	$product_id = $product->is_type( 'variation' ) ? $product->get_parent_id() : $product->get_id();
+
+	// Users who can edit the product can already see it in the admin.
+	if ( empty( $product_id ) || current_user_can( 'edit_post', $product_id ) ) {
+		return true;
+	}
+
+	return pmpro_has_membership_access( $product_id );
+}
+
+/**
+ * Don't let non-members buy restricted WooCommerce products.
+ *
+ * This covers add to cart links, AJAX and the Store API, and removes restricted products from the cart before checkout.
+ *
+ * @since TBD
+ *
+ * @param bool       $is_purchasable Whether the product can be purchased.
+ * @param WC_Product $product        The product or variation.
+ * @return bool
+ */
+function pmprocpt_woocommerce_is_purchasable( $is_purchasable, $product ) {
+	if ( $is_purchasable && ! pmprocpt_has_product_access( $product ) ) {
+		return false;
+	}
+
+	return $is_purchasable;
+}
+add_filter( 'woocommerce_is_purchasable', 'pmprocpt_woocommerce_is_purchasable', 10, 2 );
+
+/**
+ * Hide the description of restricted WooCommerce products from non-members.
+ *
+ * WooCommerce reads the description outside of the_content in the Store API, blocks and structured data.
+ *
+ * @since TBD
+ *
+ * @param string     $description The product description.
+ * @param WC_Product $product     The product or variation.
+ * @return string
+ */
+function pmprocpt_woocommerce_product_get_description( $description, $product ) {
+	if ( ! pmprocpt_has_product_access( $product ) ) {
+		return '';
+	}
+
+	return $description;
+}
+add_filter( 'woocommerce_product_get_description', 'pmprocpt_woocommerce_product_get_description', 10, 2 );
+add_filter( 'woocommerce_product_variation_get_description', 'pmprocpt_woocommerce_product_get_description', 10, 2 );
+
+/**
+ * Hide the short description of restricted WooCommerce products from non-members, unless PMPro is set to show excerpts.
+ *
+ * @since TBD
+ *
+ * @param string     $short_description The product short description.
+ * @param WC_Product $product           The product.
+ * @return string
+ */
+function pmprocpt_woocommerce_product_get_short_description( $short_description, $product ) {
+	if ( ! get_option( 'pmpro_showexcerpts' ) && ! pmprocpt_has_product_access( $product ) ) {
+		return '';
+	}
+
+	return $short_description;
+}
+add_filter( 'woocommerce_product_get_short_description', 'pmprocpt_woocommerce_product_get_short_description', 10, 2 );
+
+/**
+ * Hide the short description on the single product page, which WooCommerce reads from the post.
+ *
+ * @since TBD
+ *
+ * @param string $short_description The product short description.
+ * @return string
+ */
+function pmprocpt_woocommerce_short_description( $short_description ) {
+	global $post;
+
+	if ( ! empty( $post->ID ) && 'product' === $post->post_type ) {
+		$short_description = pmprocpt_woocommerce_product_get_short_description( $short_description, wc_get_product( $post->ID ) );
+	}
+
+	return $short_description;
+}
+add_filter( 'woocommerce_short_description', 'pmprocpt_woocommerce_short_description' );
+
+/**
  * pmprocpt_init Add Settings Page to WordPress admin.
  *
  * This is legacy functionality from before the `pmpro_restrictable_post_types` filter was added and will be removed in a future version.
