@@ -122,7 +122,14 @@ function pmprocpt_has_product_access( $product ) {
 		return true;
 	}
 
-	return pmpro_has_membership_access( $product_id );
+	// WooCommerce checks products many times per page, so only check each product once per user.
+	static $cache = array();
+	$key = $product_id . '-' . get_current_user_id();
+	if ( ! isset( $cache[ $key ] ) ) {
+		$cache[ $key ] = pmpro_has_membership_access( $product_id );
+	}
+
+	return $cache[ $key ];
 }
 
 /**
@@ -186,6 +193,8 @@ add_filter( 'woocommerce_product_get_short_description', 'pmprocpt_woocommerce_p
 
 /**
  * Hide the short description on the single product page, which WooCommerce reads from the post.
+ *
+ * This filter doesn't pass the product, so it assumes the global post is the product being shown, as it is in WooCommerce's templates.
  *
  * @since TBD
  *
